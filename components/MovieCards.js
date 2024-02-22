@@ -2,9 +2,12 @@ import { FlatList, Pressable, StyleSheet, Text, View, Image } from 'react-native
 import React from 'react'
 import movies from "../data/movies";
 import Header from './Header';
+import { useNavigation } from '@react-navigation/native';
 
 const MovieCards = () => {
     const data = movies;
+    const navigation = useNavigation();
+
     return (
         <View>
             <FlatList showsVerticalScrollIndicator={false}
