@@ -1,5 +1,5 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +11,31 @@ const TheaterScreen = () => {
     const route = useRoute();
     console.log(route.params);
     const navigation = useNavigation();
+    const { seats, setSeats, occupied } = useContext(MoviesCards);
+
+    const onSeatSelect = (item) => {
+        const seatSelected = seats.find((seat) => seat === item);
+
+        console.log(seatSelected, "you pressed on");
+        if (seatSelected) {
+            setSeats(seats.filter((seat) => seat !== item));
+        } else {
+            setSeats([...seats, item]);
+        }
+    };
+    console.log(seats, "seats selected");
+    const showSeats = () => {
+        return (
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {seats.map((seat, index) => (
+              <Text style={{ marginTop: 4, fontSize: 17, paddingHorizontal: 4 }}>
+                {seat}
+              </Text>
+            ))}
+          </View>
+        );
+      };
+
     return (
         <SafeAreaView>
 
@@ -83,12 +108,22 @@ const TheaterScreen = () => {
 
                             borderColor: "gray",
                             borderWidth: 0.5,
-                            padding: 8,
                             borderRadius: 5,
                         }}
                     >
-
-                        <Text style={{}}>{item}</Text>
+                        {
+                            seats.includes(item) ? (
+                                <Text style={{ backgroundColor: "#ffc40c", padding: 8 }}>{item}</Text>
+                            )
+                                :
+                                occupied.includes(item) ? (
+                                    <Text style={{ backgroundColor: "#989898", padding: 8 }}>{item}</Text>
+                                )
+                                    :
+                                    (
+                                        <Text style={{ padding: 8 }}>{item}</Text>
+                                    )
+                        }
 
                     </Pressable>
                 )}
@@ -143,7 +178,11 @@ const TheaterScreen = () => {
                     <Text style={{ marginBottom: 4, fontSize: 15, fontWeight: "500" }}>
                         show end time approx 6:51Pm
                     </Text>
-                    <Text style={{ fontSize: 18 }}>No seats selected</Text>
+                    {seats.length > 0 ? (
+                        showSeats()
+                    ) : (
+                        <Text style={{ fontSize: 18 }}>No seats selected</Text>
+                    )}
                 </View>
 
                 <View style={{
@@ -167,7 +206,13 @@ const TheaterScreen = () => {
                 marginVertical: 20,
             }}>
 
-                <Text></Text>
+                {seats.length > 0 ? (
+                    <Text style={{ fontSize: 17, fontWeight: "500" }}>
+                        {seats.length} seat's selected
+                    </Text>
+                ) : (
+                    <Text></Text>
+                )}
 
                 <Pressable>
                     <Text style={{ fontSize: 17, fontWeight: "600" }}>PAY</Text>
