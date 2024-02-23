@@ -71,8 +71,8 @@ const MovieScreen = () => {
             <HorizontalDatepicker
                 mode="gregorian"
                 startDate={new Date("2024-02-22")}
-                endDate={new Date("2024-02-27")}
-                initialSelectedDate={new Date("2024-02-22")}
+                endDate={new Date("2024-02-29")}
+                initialSelectedDate={new Date("2024-02-21")}
                 onSelectedDateChange={(date) => setSelectedDate(date)}
                 selectedItemWidth={170}
                 unselectedItemWidth={38}
