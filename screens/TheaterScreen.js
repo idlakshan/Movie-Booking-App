@@ -9,32 +9,40 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const TheaterScreen = () => {
     const route = useRoute();
-    console.log(route.params);
+    //console.log(route.params);
     const navigation = useNavigation();
     const { seats, setSeats, occupied } = useContext(MoviesCards);
 
     const onSeatSelect = (item) => {
         const seatSelected = seats.find((seat) => seat === item);
 
-        console.log(seatSelected, "you pressed on");
+        //console.log(seatSelected, "you pressed on");
         if (seatSelected) {
             setSeats(seats.filter((seat) => seat !== item));
         } else {
             setSeats([...seats, item]);
         }
     };
-    console.log(seats, "seats selected");
+ 
+    //calc tickets total
+    const fee = 87;
+    const noOfSeats = seats.length;
+    const priceValue = noOfSeats * 550;
+    const total = seats.length > 0 ? fee + noOfSeats * 550 : 0;
+    console.log(total);
+
+    //console.log(seats, "seats selected");
     const showSeats = () => {
         return (
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {seats.map((seat, index) => (
-              <Text style={{ marginTop: 4, fontSize: 17, paddingHorizontal: 4 }}>
-                {seat}
-              </Text>
-            ))}
-          </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                {seats.map((seat, index) => (
+                    <Text style={{ marginTop: 4, fontSize: 17, paddingHorizontal: 4 }}>
+                        {seat}
+                    </Text>
+                ))}
+            </View>
         );
-      };
+    };
 
     return (
         <SafeAreaView>
@@ -92,7 +100,7 @@ const TheaterScreen = () => {
                     color: "gray",
                 }}
             >
-                CLASSIC (240)
+                CLASSIC (550)
             </Text>
 
             <View style={{ marginTop: 20 }} />
@@ -215,7 +223,7 @@ const TheaterScreen = () => {
                 )}
 
                 <Pressable>
-                    <Text style={{ fontSize: 17, fontWeight: "600" }}>PAY</Text>
+                    <Text style={{ fontSize: 17, fontWeight: "600" }}>PAY {total}</Text>
                 </Pressable>
 
             </Pressable>
